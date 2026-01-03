@@ -46,7 +46,7 @@ include "config.php";
 	</head>
     <body class="<?= $theme ?> <?= $font ?>">
 		<div class="card">
-			<h1>Add "to do"</h1>
+			<h1>Add your next task!</h1>
 			<form method="POST" action="Store.php">
 				<textarea name="title" placeholder="What's next on your agenda?"></textarea>
 				<br>
