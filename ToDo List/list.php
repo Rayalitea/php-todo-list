@@ -1,0 +1,115 @@
+<?php
+include "config.php";
+?>
+
+<?php
+session_start();
+if (isset($_SESSION['message'])) {
+    echo "<div class='success-msg'>".$_SESSION['message']."</div>";
+    unset($_SESSION['message']);
+}
+?>
+<!DOCTYPE html>
+<html>
+	<head >
+		<meta charset="utf-8">
+		<title>Lists</title>
+		<link rel="stylesheet" href="style.css">
+		<style type="text/css">
+			body { 
+				display: flex; 
+				flex-direction: column; 
+				align-items: center;  
+				padding-top: 50px; 
+			}/*لحتى اخلي كل العناصر بنص صفحة المتصفح */
+			.header { 
+				text-align: center; 
+				margin-bottom: 30px; 
+			}/*ترتيب مسافات*/
+			.add-btn { 
+				background-color: var(--green);
+				color: white;
+				padding: 10px 30px; 
+				border-radius: 5px; 
+				cursor: pointer; 
+			}
+			.todo-item {  
+				background-color: var(--bg-card);
+				width: 500px; 
+				padding: 15px; 
+				margin-bottom: 10px; 
+				border-radius: 8px;
+				display: flex; 
+				justify-content: space-between; 
+				align-items: center;
+			}
+			.todo-title { font-size: 18px; }
+			.completed-title { text-decoration: line-through; color: #6b7280; }
+			.a { 
+				border: none; 
+				padding: 5px 10px; 
+				border-radius: 4px; 
+				cursor: pointer; 
+				margin-left: 5px; 
+				color: white; 
+			}
+			.btn-complete { background-color: var(--yellow); text-decoration:linethrough;}
+			.btn-uncomp { background-color: var(--green); }
+			.btn-update { background-color: var(--blue); } 
+    		.btn-delete { background-color: var(--red); } 
+
+		</style>
+	</head>
+	 <body class="<?= $theme ?> <?= $font ?>">
+		
+		<div class="header">
+			<h1>Focus Board</h1>
+			<p>"Great things start here"</p>
+			<hr class="divider"> <br>
+			<a href="create.php" class="add-btn">Add+</a>
+		</div>
+
+		<?php
+			require "Database.php";
+			if (!$connect) {
+				die("Connection failed: " . mysqli_connect_error());
+			}
+			$result = mysqli_query($connect, "SELECT * FROM tasks");
+			if (!$result) {
+				die("Query failed: " . mysqli_error($connect));
+			}
+
+			while ($row = mysqli_fetch_assoc($result)) {
+				$completedClass = ($row['status'] === 'true') ? 'completed-title' : '';
+				//هون بيغير لي شكل الكارد على حسب لو المهمة مكتملة او لا 
+				$toggleText = ($row['status'] === 'true') ? 'Uncomplete' : 'Complete';
+				//هذا بيغير لي النص ال على البوتون كومبليت مش كمبليت حسب حالة المهمة كمان 
+		?>
+
+		
+		<div class="todo-item">
+			<span class="todo-title  <?php echo $completedClass; ?>" >
+				<?php echo htmlspecialchars($row['title']); ?>
+				<!--يعرض لي اسم المهمة من قاعدة البيانات بيجيبه-->
+			</span>
+			<!--اسم المهمة الي لازم يتم انجازها المستخدم بيدخلها من كرييت بيج-->
+			<div class="a">
+				<!--لما تكون المهمة مكتمله تصير مشطوب عليها-->
+				<a href="Toggle.php?id=<?php echo $row['id']; ?>">
+					<button class="<?php echo ($row['status'] === 'true') ? 'btn-complete' : 'btn-complete btn-uncomp'; ?>">
+						<?php echo $toggleText; ?>
+					</button>
+				</a>
+				<a href="update.php?id=<?php echo $row['id']; ?>">
+					<button class="btn-update">Update</button></a>
+				<!--ينقلني لصفحة الابديت لو  ضغط عليه-->
+				<a href="Delete.php?id=<?php echo $row['id']; ?>">
+					<button class="btn-delete">Delete</button>
+				</a>
+				<!--يحذف المهمة لو ضغط عليه المستخدم-->
+			</div>
+		</div>
+	<?php } ?>
+		
+	</body>
+</html>

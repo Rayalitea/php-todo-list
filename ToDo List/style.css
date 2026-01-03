@@ -1,0 +1,86 @@
+body.light {
+    --bg-main: #EFE8DD;
+    --bg-card: #F7F2EA;
+    --border-color: #D8CFC4;
+
+    --text-main: #2E2B28;
+    --text-muted: #6B645C;
+
+    --red: #B85C5C;
+    --yellow: #C9A84D;
+    --green: #6F9E84;
+    --blue: #5F7FA3;
+}
+
+body.dark {
+    --bg-main: #111;
+    --bg-card: #1c1c1c;
+    --border-color: #333;
+
+    --text-main: #fff;
+    --text-muted: #aaa;
+
+    --red: #ef4444;
+    --yellow: #facc15;
+    --green: #22c55e;
+    --blue: #3b82f6;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: Georgia;
+}
+
+body.normal { font-size: 16px; }
+body.large  { font-size: 20px; }
+
+.card,
+.todo-item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+	box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.completed-title {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+button {
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    filter: brightness(0.95);
+}
+
+.btn-complete {
+    background-color: var(--yellow);
+    color: #2E2B28;
+}
+
+.btn-uncomp {
+    background-color: var(--green);
+    color: #fff;
+}
+
+.btn-update {
+    background-color: var(--blue);
+    color: #fff;
+}
+
+.btn-delete {
+    background-color: var(--red);
+    color: #fff;
+}
+
+/* Add button */
+.add-btn {
+    background-color: var(--green);
+    color: #fff;
+}
